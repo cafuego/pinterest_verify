@@ -1,0 +1,3 @@
+name = Pinterest Verify Website
+description = Verify your Drupal site with the <a href="https://pinterest.com">Pinterest</a> social networking site.
+core = 7.x
