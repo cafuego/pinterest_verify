@@ -44,7 +44,7 @@ function pinterest_verify_settings() {
     '#default_value' => variable_get('pinterest_verify_page_content', ''),
   );
 
-  $form['#submit'][] = '';
+  $form['#submit'][] = 'pinterest_verify_settings_menu_rebuild';
 
   return system_settings_form($form);
 }
@@ -52,14 +52,15 @@ function pinterest_verify_settings() {
 /**
  * Extra submit handler to rebuild the menu when page verification is chosen.
  *
- * @todo: Find a less heavy way of doing this.
+ * @todo: Maybe find a less heavy way of doing this.
  */
-function pinterest_verify_menu_rebuild_handler($form, $form_state) {
+function pinterest_verify_settings_menu_rebuild($form, $form_state) {
   // Only do this if the page url was changed.
-  if ($form_state['values']['pinterest_verify_method'] == PINTEREST_VERIFY_META
+  if ($form_state['values']['pinterest_verify_method'] == PINTEREST_VERIFY_PAGE
     && !empty($form_state['values']['pinterest_verify_page_url'])
     && $form_state['values']['pinterest_verify_page_url'] != variable_get('pinterest_verify_page_url', '')
   ) {
     menu_rebuild();
+    drupal_set_message(t('The menu router has been rebuilt.'));
   }
 }

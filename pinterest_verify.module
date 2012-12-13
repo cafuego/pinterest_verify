@@ -1,7 +1,7 @@
 <?php
 /**
  * @file pinterest_verify.module
- *
+ * pinterest_verify module functions.
  */
 
 define('PINTEREST_VERIFY_META', 1);
@@ -45,14 +45,17 @@ function pinterest_verify_init() {
 
 /**
  * Implements hook_menu_alter().
+ *
+ * @see pinterest_verify_settings_menu_rebuild().
  */
 function pinterest_verify_menu_alter(&$items) {
-  $verify_method = variable_get('pinterest_verify_method', PINTEREST_VERIFY_PAGE);
+  $verify_method = variable_get('pinterest_verify_method', PINTEREST_VERIFY_META);
   $verify_url = variable_get('pinterest_verify_page_url', '');
 
-  if ($verify_method == PINTEREST_VERIFY_META && !empty($verify_url)) {
+  if ($verify_method == PINTEREST_VERIFY_PAGE && !empty($verify_url)) {
     $items[$verify_url] = array(
       'page callback' => '_pinterest_verify_page',
+      'access callback' => TRUE,
       'type' => MENU_CALLBACK,
     );
   }
